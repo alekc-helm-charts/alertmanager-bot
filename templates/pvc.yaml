@@ -1,0 +1,15 @@
+{{ if and .Values.persistentStorage.enabled (empty .Values.persistentStorage.customPvcName ) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "alertmanager-bot.fullname" . }}
+  labels:
+  {{- include "alertmanager-bot.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistentStorage.pvc.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistentStorage.pvc.storage }}
+  storageClassName: {{ .Values.persistentStorage.pvc.storageClassName }}
+{{- end }}

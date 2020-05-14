@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "alertmanager-bot.fullname" . }}
+  labels:
+    {{- include "alertmanager-bot.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 8080
+  selector:
+    {{- include "alertmanager-bot.selectorLabels" . | nindent 4 }}
